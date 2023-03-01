@@ -22,8 +22,8 @@ def createParser():
 def split_parse_url(user_input):
     """finding the link path"""
     url_split = urlparse(user_input)
-    parsed = f'{url_split.netloc}{url_split.path}'
-    return parsed
+    split_link = f'{url_split.netloc}{url_split.path}'
+    return split_link
 
 
 def shorten_link(user_input, url, token):
@@ -32,8 +32,8 @@ def shorten_link(user_input, url, token):
         'Authorization': f'Bearer {token}',
         'Content-Type': 'application/json',
     }
-    data = {"long_url": user_input}
-    response_post = requests.post(url, headers=headers, json=data)
+    long_link = {"long_url": user_input}
+    response_post = requests.post(url, headers=headers, json=long_link)
     response_post.raise_for_status()
     bit_link = response_post.json()['link']
     return bit_link
@@ -65,11 +65,11 @@ def is_bitlink(url, user_input, parsed, token):
 def main():
     user_input = createParser()
     bitlink_url = 'https://api-ssl.bitly.com/v4/bitlinks/'
-    parsed = split_parse_url(user_input)
+    split_link = split_parse_url(user_input)
     token = os.environ['BITLINK_TOKEN']
     try:
-        if is_bitlink(bitlink_url, user_input, parsed, token):
-            clicks_count = count_clicks(user_input, bitlink_url, parsed, token)
+        if is_bitlink(bitlink_url, user_input, split_link, token):
+            clicks_count = count_clicks(user_input, bitlink_url, split_link, token)
             print('Колличество кликов по ссылке: ', clicks_count)
         else:
             bitlink = shorten_link(user_input, bitlink_url, token)
