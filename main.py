@@ -1,7 +1,6 @@
 import argparse
 import os
 
-
 import requests
 from urllib.parse import urlparse
 from dotenv import load_dotenv
@@ -73,7 +72,7 @@ def main():
         else:
             bitlink = shorten_link(user_input, bitlink_url, token)
             print('Битлинк: ', bitlink)
-    except:
+    except requests.exceptions.HTTPError:
         print('Введена не корректная ссылка')
 
 
