@@ -27,7 +27,6 @@ def shorten_link(user_input, url, token):
     """creating a bitlink"""
     headers = {
         'Authorization': f'Bearer {token}',
-        'Content-Type': 'application/json',
     }
     long_link = {"long_url": user_input}
     post_response = requests.post(url, headers=headers, json=long_link)
