@@ -19,8 +19,8 @@ def returns_the_received_link():
 
 def split_parse_url(user_input):
     """finding the link path"""
-    url_split = urlparse(user_input)
-    split_link = f'{url_split.netloc}{url_split.path}'
+    split_url = urlparse(user_input)
+    split_link = f'{split_url.netloc}{split_url.path}'
     return split_link
 
 
@@ -31,9 +31,9 @@ def shorten_link(user_input, url, token):
         'Content-Type': 'application/json',
     }
     long_link = {"long_url": user_input}
-    response_post = requests.post(url, headers=headers, json=long_link)
-    response_post.raise_for_status()
-    bit_link = response_post.json()['link']
+    post_response = requests.post(url, headers=headers, json=long_link)
+    post_response.raise_for_status()
+    bit_link = post_response.json()['link']
     return bit_link
 
 
@@ -42,11 +42,11 @@ def count_clicks(user_input, url, parsed, token):
     headers = {
         'Authorization': f'Bearer {token}'
     }
-    response_get = requests.get(f'{url}{parsed}/clicks/summary',
+    get_response = requests.get(f'{url}{parsed}/clicks/summary',
                                 headers=headers)
-    response_get.raise_for_status()
+    get_response.raise_for_status()
 
-    clicks_count = response_get.json()["total_clicks"]
+    clicks_count = get_response.json()["total_clicks"]
     return clicks_count
 
 
@@ -55,9 +55,9 @@ def is_bitlink(url, user_input, parsed, token):
     headers = {
         'Authorization': f'Bearer {token}'
     }
-    response_get = requests.get(f'{url}{parsed}',
+    get_response = requests.get(f'{url}{parsed}',
                                 headers=headers)
-    return response_get.ok
+    return get_response.ok
 
 
 def main():
