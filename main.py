@@ -7,7 +7,7 @@ from urllib.parse import urlparse
 from dotenv import load_dotenv
 
 
-def create_parser():
+def returns_the_received_link():
     """parse link arg"""
     parser = argparse.ArgumentParser(
         description="""Программа создает битлинк. Если это битлтнк - сколько кликов по ней было.""")
@@ -62,7 +62,7 @@ def is_bitlink(url, user_input, parsed, token):
 
 def main():
     load_dotenv()
-    user_input = create_parser()
+    user_input = returns_the_received_link()
     bitlink_url = 'https://api-ssl.bitly.com/v4/bitlinks/'
     split_link = split_parse_url(user_input)
     token = os.environ['BITLINK_TOKEN']
