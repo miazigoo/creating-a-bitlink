@@ -65,7 +65,7 @@ def main():
     user_input = returns_the_received_link()
     bitlink_url = 'https://api-ssl.bitly.com/v4/bitlinks/'
     split_link = split_parse_url(user_input)
-    token = os.environ['BITLINK_TOKEN']
+    token = os.environ['BITLY_TOKEN']
     try:
         if is_bitlink(bitlink_url, user_input, split_link, token):
             clicks_count = count_clicks(user_input, bitlink_url, split_link, token)
