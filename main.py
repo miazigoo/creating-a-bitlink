@@ -23,24 +23,26 @@ def split_url(user_input):
     return split_link
 
 
-def shorten_link(user_input, url, token):
+def shorten_link(user_input,token):
     """creating a bitlink"""
+    bitly_api_url = 'https://api-ssl.bitly.com/v4/bitlinks/'
     headers = {
         'Authorization': f'Bearer {token}',
     }
     long_link = {"long_url": user_input}
-    response = requests.post(url, headers=headers, json=long_link)
+    response = requests.post(bitly_api_url, headers=headers, json=long_link)
     response.raise_for_status()
     bit_link = response.json()['link']
     return bit_link
 
 
-def count_clicks(user_input, url, parsed, token):
+def count_clicks(user_input,parsed, token):
     """get the number of clicks on the bitlink"""
+    bitly_api_url = 'https://api-ssl.bitly.com/v4/bitlinks/'
     headers = {
         'Authorization': f'Bearer {token}'
     }
-    response = requests.get(f'{url}{parsed}/clicks/summary',
+    response = requests.get(f'{bitly_api_url}{parsed}/clicks/summary',
                                 headers=headers)
     response.raise_for_status()
 
@@ -48,12 +50,13 @@ def count_clicks(user_input, url, parsed, token):
     return clicks_count
 
 
-def is_bitlink(url, user_input, parsed, token):
+def is_bitlink(user_input, parsed, token):
     """Checking on bitlink"""
+    bitly_api_url = 'https://api-ssl.bitly.com/v4/bitlinks/'
     headers = {
         'Authorization': f'Bearer {token}'
     }
-    response = requests.get(f'{url}{parsed}',
+    response = requests.get(f'{bitly_api_url}{parsed}',
                                 headers=headers)
     return response.ok
 
@@ -61,15 +64,14 @@ def is_bitlink(url, user_input, parsed, token):
 def main():
     load_dotenv()
     user_input = get_command_line_argument()
-    bitlink_url = 'https://api-ssl.bitly.com/v4/bitlinks/'
     split_link = split_url(user_input)
     token = os.environ['BITLY_TOKEN']
     try:
-        if is_bitlink(bitlink_url, user_input, split_link, token):
-            clicks_count = count_clicks(user_input, bitlink_url, split_link, token)
+        if is_bitlink(user_input, split_link, token):
+            clicks_count = count_clicks(user_input, split_link, token)
             print('Колличество кликов по ссылке: ', clicks_count)
         else:
-            bitlink = shorten_link(user_input, bitlink_url, token)
+            bitlink = shorten_link(user_input, token)
             print('Битлинк: ', bitlink)
     except requests.exceptions.HTTPError:
         print('Введена не корректная ссылка')
