@@ -36,13 +36,13 @@ def shorten_link(user_input,token):
     return bit_link
 
 
-def count_clicks(parsed, token):
+def count_clicks(split_link, token):
     """get the number of clicks on the bitlink"""
     bitly_api_url = 'https://api-ssl.bitly.com/v4/bitlinks/'
     headers = {
         'Authorization': f'Bearer {token}'
     }
-    response = requests.get(f'{bitly_api_url}{parsed}/clicks/summary',
+    response = requests.get(f'{bitly_api_url}{split_link}/clicks/summary',
                                 headers=headers)
     response.raise_for_status()
 
@@ -50,13 +50,13 @@ def count_clicks(parsed, token):
     return clicks_count
 
 
-def is_bitlink(parsed, token):
+def is_bitlink(split_link, token):
     """Checking on bitlink"""
     bitly_api_url = 'https://api-ssl.bitly.com/v4/bitlinks/'
     headers = {
         'Authorization': f'Bearer {token}'
     }
-    response = requests.get(f'{bitly_api_url}{parsed}',
+    response = requests.get(f'{bitly_api_url}{split_link}',
                                 headers=headers)
     return response.ok
 
