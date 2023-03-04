@@ -29,9 +29,9 @@ def shorten_link(user_input, url, token):
         'Authorization': f'Bearer {token}',
     }
     long_link = {"long_url": user_input}
-    post_response = requests.post(url, headers=headers, json=long_link)
-    post_response.raise_for_status()
-    bit_link = post_response.json()['link']
+    response = requests.post(url, headers=headers, json=long_link)
+    response.raise_for_status()
+    bit_link = response.json()['link']
     return bit_link
 
 
@@ -40,11 +40,11 @@ def count_clicks(user_input, url, parsed, token):
     headers = {
         'Authorization': f'Bearer {token}'
     }
-    get_response = requests.get(f'{url}{parsed}/clicks/summary',
+    response = requests.get(f'{url}{parsed}/clicks/summary',
                                 headers=headers)
-    get_response.raise_for_status()
+    response.raise_for_status()
 
-    clicks_count = get_response.json()["total_clicks"]
+    clicks_count = response.json()["total_clicks"]
     return clicks_count
 
 
@@ -53,9 +53,9 @@ def is_bitlink(url, user_input, parsed, token):
     headers = {
         'Authorization': f'Bearer {token}'
     }
-    get_response = requests.get(f'{url}{parsed}',
+    response = requests.get(f'{url}{parsed}',
                                 headers=headers)
-    return get_response.ok
+    return response.ok
 
 
 def main():
