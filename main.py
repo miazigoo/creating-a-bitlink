@@ -36,7 +36,7 @@ def shorten_link(user_input,token):
     return bit_link
 
 
-def count_clicks(user_input,parsed, token):
+def count_clicks(parsed, token):
     """get the number of clicks on the bitlink"""
     bitly_api_url = 'https://api-ssl.bitly.com/v4/bitlinks/'
     headers = {
@@ -50,7 +50,7 @@ def count_clicks(user_input,parsed, token):
     return clicks_count
 
 
-def is_bitlink(user_input, parsed, token):
+def is_bitlink(parsed, token):
     """Checking on bitlink"""
     bitly_api_url = 'https://api-ssl.bitly.com/v4/bitlinks/'
     headers = {
@@ -67,8 +67,8 @@ def main():
     split_link = split_url(user_input)
     token = os.environ['BITLY_TOKEN']
     try:
-        if is_bitlink(user_input, split_link, token):
-            clicks_count = count_clicks(user_input, split_link, token)
+        if is_bitlink(split_link, token):
+            clicks_count = count_clicks(split_link, token)
             print('Колличество кликов по ссылке: ', clicks_count)
         else:
             bitlink = shorten_link(user_input, token)
