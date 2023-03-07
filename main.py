@@ -23,7 +23,7 @@ def split_url(user_input):
     return split_link
 
 
-def shorten_link(user_input,token):
+def shorten_link(user_input, token):
     """creating a bitlink"""
     bitly_api_url = 'https://api-ssl.bitly.com/v4/bitlinks/'
     headers = {
